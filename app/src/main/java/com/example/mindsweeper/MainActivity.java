@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private int clock = 0;
     private boolean running = false;
     private boolean flagMode = false;
+    private boolean userWon = false;
+    private int totalCellsRevealed = 0;
+    private int totalCells = 80;
+    private int bombs = 4;
     private String mine = Html.fromHtml("\uD83D\uDCA3").toString();
     private ArrayList<Integer> rightEdge = new ArrayList<Integer>() {
         {
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             clock = savedInstanceState.getInt("clock");
             running = savedInstanceState.getBoolean("running");
         }
-        generateGrid(4);
+        generateGrid(bombs);
         running = true;
         runTimer();
     }
@@ -170,6 +174,22 @@ public class MainActivity extends AppCompatActivity {
         else{
             tv.setTextColor(Color.GRAY);
             tv.setBackgroundColor(Color.LTGRAY);
+            totalCellsRevealed++;
+            //if no mines around cell everything adjacent is revealed
+            if(tv.getText().toString().equals(""))
+            {
+                int index = findIndexOfCellTextView(tv);
+                ArrayList<Integer> adjacentCells = adjacentCells(index);
+                for (Integer cell: adjacentCells) {
+                    cell_tvs.get(cell).setTextColor(Color.GRAY);
+                    cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
+                    totalCellsRevealed++;
+                }
+            }
+            if(totalCells - bombs == totalCellsRevealed)
+            {
+                userWon = true;
+            }
         }
 
         //Once set to a number you can never edit the cell again
@@ -250,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
                 if(countBombs > 0)
                 {
                     cell_tvs.get(i).setText(String.valueOf(countBombs));
+                }
+                else{
+                    cell_tvs.get(i).setText("");
                 }
             }
         }
