@@ -8,7 +8,7 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout01"
-        android:layout_width="150dp"
+        android:layout_width="350dp"
         android:layout_height="500dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -16,7 +16,7 @@
         android:layout_marginBottom="32dp"
         android:layout_gravity="center"
         app:rowCount="10"
-        app:columnCount="2"
+        app:columnCount="8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,37 +24,37 @@
         >
 
 
-        <TextView
-            android:id="@+id/textView00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:height="64dp"
-            android:width="64dp"
-            android:text="@string/flag"
-            android:textSize="32sp"
-            android:textAlignment="center"
-            app:layout_column="0"
-            app:layout_row="0" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView00"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="2dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:layout_marginEnd="2dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:height="64dp"-->
+<!--            android:width="64dp"-->
+<!--            android:text="@string/flag"-->
+<!--            android:textSize="32sp"-->
+<!--            android:textAlignment="center"-->
+<!--            app:layout_column="0"-->
+<!--            app:layout_row="0" />-->
 
-        <TextView
-            android:id="@+id/textView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:height="64dp"
-            android:width="64dp"
-            android:text="@string/mine"
-            android:textSize="32sp"
-            android:textAlignment="center"
-            app:layout_column="1"
-            app:layout_row="0" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView01"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="2dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:layout_marginEnd="2dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:height="64dp"-->
+<!--            android:width="64dp"-->
+<!--            android:text="@string/mine"-->
+<!--            android:textSize="32sp"-->
+<!--            android:textAlignment="center"-->
+<!--            app:layout_column="1"-->
+<!--            app:layout_row="0" />-->
 
         <TextView
             android:id="@+id/textView10"
