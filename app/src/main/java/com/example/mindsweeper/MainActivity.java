@@ -6,6 +6,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,20 +91,21 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText("");
                 tv.setBackgroundColor(Color.GRAY);
             }
-            else {
+            else if(!isNumeric(tv.getText().toString())) {
                 tv.setText(Html.fromHtml("\uD83D\uDEA9"));
-                tv.setBackgroundColor(Color.LTGRAY);
+                tv.setBackgroundColor(Color.GREEN);
             }
         }
-        else{
+        //tv.getText().toString().equals("\uD83D\uDEA9") ||
+        else if(!isNumeric(tv.getText().toString())){
             tv.setText(String.valueOf(i)+String.valueOf(j));
-            if (tv.getCurrentTextColor() == Color.GRAY) {
-                tv.setTextColor(Color.GREEN);
-                tv.setBackgroundColor(Color.parseColor("lime"));
-            }else {
+//            if (tv.getCurrentTextColor() == Color.GRAY) {
+//                tv.setTextColor(Color.GREEN);
+//                tv.setBackgroundColor(Color.parseColor("lime"));
+//            }else {
                 tv.setTextColor(Color.GRAY);
                 tv.setBackgroundColor(Color.LTGRAY);
-            }
+//            }
         }
     }
 
@@ -114,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
         else {
             flagMode = true;
         }
+    }
+
+    public boolean isNumeric(String strNum) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
     }
 
     public void onClickStart(View view) {
@@ -138,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 int hours =clock/3600;
                 int minutes = (clock%3600) / 60;
                 int seconds = clock%60;
-                String time = String.format("%d:%02d:%02d", hours, minutes, seconds);
+                String time = String.format("%02d", seconds);
                 timeView.setText(time);
 
                 if (running) {
