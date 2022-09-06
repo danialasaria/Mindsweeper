@@ -3,10 +3,12 @@ package com.example.mindsweeper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -15,9 +17,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int COLUMN_COUNT = 2;
+    private static final int COLUMN_COUNT = 8;
     private int clock = 0;
     private boolean running = false;
+    private boolean flagMode = false;
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -74,20 +77,45 @@ public class MainActivity extends AppCompatActivity {
         return -1;
     }
 
+    @SuppressLint("SetTextI18n")
     public void onClickTV(View view){
         TextView tv = (TextView) view;
         int n = findIndexOfCellTextView(tv);
         int i = n/COLUMN_COUNT;
         int j = n%COLUMN_COUNT;
-        tv.setText(String.valueOf(i)+String.valueOf(j));
-        if (tv.getCurrentTextColor() == Color.GRAY) {
-            tv.setTextColor(Color.GREEN);
-            tv.setBackgroundColor(Color.parseColor("lime"));
-        }else {
-            tv.setTextColor(Color.GRAY);
-            tv.setBackgroundColor(Color.LTGRAY);
+        if (flagMode) {
+            if(tv.getText().toString().equals("\uD83D\uDEA9"))
+            {
+                tv.setText("");
+                tv.setBackgroundColor(Color.GRAY);
+            }
+            else {
+                tv.setText(Html.fromHtml("\uD83D\uDEA9"));
+                tv.setBackgroundColor(Color.LTGRAY);
+            }
+        }
+        else{
+            tv.setText(String.valueOf(i)+String.valueOf(j));
+            if (tv.getCurrentTextColor() == Color.GRAY) {
+                tv.setTextColor(Color.GREEN);
+                tv.setBackgroundColor(Color.parseColor("lime"));
+            }else {
+                tv.setTextColor(Color.GRAY);
+                tv.setBackgroundColor(Color.LTGRAY);
+            }
         }
     }
+
+    public void onClickFlag(View view) {
+        if(flagMode)
+        {
+            flagMode = false;
+        }
+        else {
+            flagMode = true;
+        }
+    }
+
     public void onClickStart(View view) {
         running = true;
     }

@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,9 +53,10 @@
         android:layout_marginTop="16dp"
         android:width="64dp"
         android:height="64dp"
-        android:text="10"
+        android:text="@string/flag"
         android:textAlignment="center"
         android:textSize="32sp"
+        android:onClick="onClickFlag"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
