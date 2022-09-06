@@ -6,6 +6,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final int COLUMN_COUNT = 2;
+    private int clock = 0;
+    private boolean running = false;
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -54,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 cell_tvs.add(tv);
             }
         }
+        if (savedInstanceState != null) {
+            clock = savedInstanceState.getInt("clock");
+            running = savedInstanceState.getBoolean("running");
+        }
+        running = true;
+        runTimer();
 
     }
 
@@ -78,5 +87,37 @@ public class MainActivity extends AppCompatActivity {
             tv.setTextColor(Color.GRAY);
             tv.setBackgroundColor(Color.LTGRAY);
         }
+    }
+    public void onClickStart(View view) {
+        running = true;
+    }
+
+    public void onClickStop(View view) {
+        running = false;
+    }
+    public void onClickClear(View view) {
+        running = false;
+        clock = 0;
+    }
+
+    private void runTimer() {
+        final TextView timeView = (TextView) findViewById(R.id.textView);
+        final Handler handler = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours =clock/3600;
+                int minutes = (clock%3600) / 60;
+                int seconds = clock%60;
+                String time = String.format("%d:%02d:%02d", hours, minutes, seconds);
+                timeView.setText(time);
+
+                if (running) {
+                    clock++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
     }
 }

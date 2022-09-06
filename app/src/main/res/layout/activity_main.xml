@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout01"
@@ -23,38 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:rowCount="11">
 
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/textView00"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="2dp"-->
-        <!--            android:layout_marginTop="2dp"-->
-        <!--            android:layout_marginEnd="2dp"-->
-        <!--            android:layout_marginBottom="2dp"-->
-        <!--            android:height="64dp"-->
-        <!--            android:width="64dp"-->
-        <!--            android:text="@string/flag"-->
-        <!--            android:textSize="32sp"-->
-        <!--            android:textAlignment="center"-->
-        <!--            app:layout_column="0"-->
-        <!--            app:layout_row="0" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/textView01"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="2dp"-->
-        <!--            android:layout_marginTop="2dp"-->
-        <!--            android:layout_marginEnd="2dp"-->
-        <!--            android:layout_marginBottom="2dp"-->
-        <!--            android:height="64dp"-->
-        <!--            android:width="64dp"-->
-        <!--            android:text="@string/mine"-->
-        <!--            android:textSize="32sp"-->
-        <!--            android:textAlignment="center"-->
-        <!--            app:layout_column="1"-->
-        <!--            app:layout_row="0" />-->
 
     </androidx.gridlayout.widget.GridLayout>
 
@@ -78,13 +49,27 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
+        android:layout_marginStart="88dp"
         android:layout_marginTop="16dp"
         android:width="64dp"
         android:height="64dp"
         android:text="10"
         android:textAlignment="center"
         android:textSize="32sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="218dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
