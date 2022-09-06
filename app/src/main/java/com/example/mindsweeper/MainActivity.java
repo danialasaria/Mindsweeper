@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -181,14 +182,19 @@ public class MainActivity extends AppCompatActivity {
                 int index = findIndexOfCellTextView(tv);
                 ArrayList<Integer> adjacentCells = adjacentCells(index);
                 for (Integer cell: adjacentCells) {
+                    ColorDrawable c = (ColorDrawable) cell_tvs.get(cell).getBackground();
+                    int colorOfCell = c.getColor();
+                    if(colorOfCell != Color.LTGRAY) {
+                        totalCellsRevealed++;
+                    }
                     cell_tvs.get(cell).setTextColor(Color.GRAY);
                     cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
-                    totalCellsRevealed++;
                 }
             }
             if(totalCells - bombs == totalCellsRevealed)
             {
                 userWon = true;
+                goToResultPage();
             }
         }
 
@@ -234,10 +240,24 @@ public class MainActivity extends AppCompatActivity {
         running = false;
         clock = 0;
     }
+    //go to result page with the time and result
+    public void goToResultPage() {
+        Intent intent = new Intent(this, DisplayResultActivity.class);
+
+        intent.putExtra("com.example.mindsweeper.TIME", clock);
+        if(userWon) {
+            intent.putExtra("com.example.mindsweeper.RESULT", "You won. Good Job!");
+        }
+        else {
+            intent.putExtra("com.example.mindsweeper.RESULT", "You lost. Try again next time!");
+        }
+//        intent.putExtra("com.example.mindsweeper.RESULT", userWon);
+        startActivity(intent);
+    }
 
     public void generateGrid(int numberBombs) {
-        int bombs = 0;
-        while (bombs < numberBombs) {
+        int bombsPlaced = 0;
+        while (bombsPlaced < numberBombs) {
             int x = new Random().nextInt(7);
             int y = new Random().nextInt(9);
 
@@ -247,9 +267,7 @@ public class MainActivity extends AppCompatActivity {
             if(!cell_tvs.get(index).getText().toString().equals(mine))
             {
                 cell_tvs.get(index).setText(mine);
-                cell_tvs.get(1).setText(mine);
-//                cell_tvs.get(index + 8).setText(Html.fromHtml("\uD83D\uDCA3"));
-                bombs++;
+                bombsPlaced++;
             }
         }
         // initialize the numbers for all cells in the grid
