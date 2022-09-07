@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private int totalCellsRevealed = 0;
     private int totalCells = 80;
     private int bombs = 4;
+    private int flagCount = 4;
     private String mine = Html.fromHtml("\uD83D\uDCA3").toString();
     private ArrayList<Integer> rightEdge = new ArrayList<Integer>() {
         {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv = new TextView(this);
                 tv.setHeight(dpToPixel(34));
                 tv.setWidth(dpToPixel(34));
-                tv.setTextSize(32);//dpToPixel(32) );
+                tv.setTextSize(25);//dpToPixel(32) );
                 tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                 tv.setTextColor(Color.GRAY);
                 tv.setBackgroundColor(Color.GRAY);
@@ -148,11 +149,6 @@ public class MainActivity extends AppCompatActivity {
         int i = n/COLUMN_COUNT;
         int j = n%COLUMN_COUNT;
         String a = tv.getText().toString();
-        if(a.equals(mine))
-        {
-            tv.setTextColor(Color.GREEN);
-            tv.setBackgroundColor(Color.GREEN);
-        }
         ColorDrawable cd = (ColorDrawable) tv.getBackground();
         int colorCode = cd.getColor();
         int gray = Color.GRAY;
@@ -161,10 +157,16 @@ public class MainActivity extends AppCompatActivity {
             {
                 tv.setText("");
                 tv.setBackgroundColor(Color.GRAY);
+                flagCount++;
+                final TextView timeView = (TextView) findViewById(R.id.flagCount);
+                timeView.setText(String.valueOf(flagCount));
             }
             //condition if background color light gray don't touch
-            else if(colorCode == gray) {
+            else if(colorCode == gray && flagCount > 0) {
                 tv.setText(Html.fromHtml("\uD83D\uDEA9"));
+                final TextView timeView = (TextView) findViewById(R.id.flagCount);
+                flagCount --;
+                timeView.setText(String.valueOf(flagCount));
             }
 
             //checking if a number
@@ -190,6 +192,12 @@ public class MainActivity extends AppCompatActivity {
                     cell_tvs.get(cell).setTextColor(Color.GRAY);
                     cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
                 }
+            }
+            else if(tv.getText().toString().equals("b"))
+            {
+                tv.setText(mine);
+                userWon = false;
+                goToResultPage();
             }
             if(totalCells - bombs == totalCellsRevealed)
             {
@@ -264,9 +272,11 @@ public class MainActivity extends AppCompatActivity {
             //need to access the cell at the x,y position and assign
             //as bomb if empty
             int index = new Random().nextInt(77);
-            if(!cell_tvs.get(index).getText().toString().equals(mine))
+            if(!cell_tvs.get(index).getText().toString().equals("b"))
             {
-                cell_tvs.get(index).setText(mine);
+                cell_tvs.get(index).setText("b");
+                cell_tvs.get(index).setTextColor(Color.GRAY);
+//                cell_tvs.get(index).setAlpha((float) 0.5);
                 bombsPlaced++;
             }
         }
@@ -274,13 +284,13 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0;i<=79;i++)
         {
             //if not a bomb find out what number should be placed
-            if(!cell_tvs.get(i).getText().toString().equals(mine))
+            if(!cell_tvs.get(i).getText().toString().equals("b"))
             {
                 int countBombs = 0;
                 ArrayList<Integer> adjacentCells = adjacentCells(i);
                 for(int cell: adjacentCells)
                 {
-                    if(cell_tvs.get(cell).getText().toString().equals(mine))
+                    if(cell_tvs.get(cell).getText().toString().equals("b"))
                     {
                         countBombs++;
                     }
