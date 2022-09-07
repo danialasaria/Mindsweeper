@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    <item android:title="@string/my_name">-->
+
+<!--    </item>-->
+
+
+    <!-- action button for search -->
+    <item android:title="@string/my_name"
+        android:id="@+id/my_name"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        />
+
+<!--    &lt;!&ndash; action button for refresh &ndash;&gt;-->
+<!--    <item android:title="refresh"-->
+<!--        android:id="@+id/refresh"-->
+<!--        android:orderInCategory="100"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        android:icon="@drawable/refresh_icon"/>-->
+
+<!--    &lt;!&ndash; action button for copy &ndash;&gt;-->
+<!--    <item android:title="copy"-->
+<!--        android:id="@+id/copy"-->
+<!--        android:orderInCategory="100"-->
+<!--        app:showAsAction="never"-->
+<!--        android:icon="@drawable/copy_icon"/>-->
+</menu>
