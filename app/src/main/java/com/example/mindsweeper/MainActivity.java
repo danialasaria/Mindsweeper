@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 timeView.setText(String.valueOf(flagCount));
             }
             //condition if background color light gray don't touch
-            else if(colorCode == gray && flagCount > 0) {
+            else if(colorCode == gray) {
                 tv.setText(Html.fromHtml("\uD83D\uDEA9"));
                 final TextView timeView = (TextView) findViewById(R.id.flagCount);
                 flagCount --;
