@@ -16,9 +16,9 @@ public class DisplayResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("com.example.mindsweeper.RESULT");
-
+        String time = intent.getStringExtra("com.example.mindsweeper.TIME");
         TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(message);
+        textView.setText(message + " It took " + time + " seconds!");
     }
 
     public void backToMain(View view) {

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private int totalCells = 80;
     private int bombs = 4;
     private int flagCount = 4;
+    private ArrayList<Integer> bombPlacement = new ArrayList<Integer>();
     private String mine = Html.fromHtml("\uD83D\uDCA3").toString();
     private Set<Integer> rightEdge = new HashSet<Integer>() {
         {
@@ -170,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
         else{
             if(tv.getText().toString().equals("b"))
             {
+                for (Integer cell: bombPlacement) {
+                    cell_tvs.get(cell).setText(mine);
+                    cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
+                }
                 tv.setText(mine);
                 userWon = false;
                 goToResultPage();
@@ -193,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
             }
             if(totalCells - bombs <= totalCellsRevealed)
             {
+                for (Integer cell: bombPlacement) {
+                    cell_tvs.get(cell).setText(mine);
+                    cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
+                }
                 userWon = true;
                 goToResultPage();
             }
@@ -231,8 +240,7 @@ public class MainActivity extends AppCompatActivity {
     //go to result page with the time and result
     public void goToResultPage() {
         Intent intent = new Intent(this, DisplayResultActivity.class);
-
-        intent.putExtra("com.example.mindsweeper.TIME", clock);
+        intent.putExtra("com.example.mindsweeper.TIME", String.valueOf(clock));
         if(userWon) {
             intent.putExtra("com.example.mindsweeper.RESULT", "You won. Good Job!");
         }
@@ -254,8 +262,9 @@ public class MainActivity extends AppCompatActivity {
             if(!cell_tvs.get(index).getText().toString().equals("b"))
             {
                 cell_tvs.get(index).setText("b");
-                cell_tvs.get(index).setTextColor(Color.LTGRAY);
+//                cell_tvs.get(index).setTextColor(Color.LTGRAY);
                 bombsPlaced++;
+                bombPlacement.add(index);
             }
         }
         // initialize the numbers for all cells in the grid
