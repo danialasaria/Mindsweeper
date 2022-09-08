@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private int bombs = 4;
     private int flagCount = 4;
     private String mine = Html.fromHtml("\uD83D\uDCA3").toString();
-    private ArrayList<Integer> rightEdge = new ArrayList<Integer>() {
+    private Set<Integer> rightEdge = new HashSet<Integer>() {
         {
             add(7);
             add(15);
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private ArrayList<Integer> leftEdge = new ArrayList<Integer>() {
+    private Set<Integer> leftEdge = new HashSet<Integer>() {
         {
             add(0);
             add(8);
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private ArrayList<Integer> topEdge = new ArrayList<Integer>() {
+    private Set<Integer> topEdge = new HashSet<Integer>() {
         {
             add(0);
             add(1);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private ArrayList<Integer> bottomEdge = new ArrayList<Integer>() {
+    private Set<Integer> bottomEdge = new HashSet<Integer>() {
         {
             add(72);
             add(73);
@@ -145,10 +147,6 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void onClickTV(View view){
         TextView tv = (TextView) view;
-        int n = findIndexOfCellTextView(tv);
-        int i = n/COLUMN_COUNT;
-        int j = n%COLUMN_COUNT;
-        String a = tv.getText().toString();
         ColorDrawable cd = (ColorDrawable) tv.getBackground();
         int colorCode = cd.getColor();
         int gray = Color.GRAY;
@@ -168,17 +166,18 @@ public class MainActivity extends AppCompatActivity {
                 flagCount --;
                 timeView.setText(String.valueOf(flagCount));
             }
-
-            //checking if a number
-//            else if(!isNumeric(tv.getText().toString())) {
-//                tv.setText(Html.fromHtml("\uD83D\uDEA9"));
-//            }
         }
         else{
-            tv.setTextColor(Color.GRAY);
+            if(tv.getText().toString().equals("b"))
+            {
+                tv.setText(mine);
+                userWon = false;
+                goToResultPage();
+            }
             tv.setBackgroundColor(Color.LTGRAY);
             totalCellsRevealed++;
             //if no mines around cell everything adjacent is revealed
+            //as there is no number, shouldn't have to check for bombs next to
             if(tv.getText().toString().equals(""))
             {
                 int index = findIndexOfCellTextView(tv);
@@ -186,37 +185,18 @@ public class MainActivity extends AppCompatActivity {
                 for (Integer cell: adjacentCells) {
                     ColorDrawable c = (ColorDrawable) cell_tvs.get(cell).getBackground();
                     int colorOfCell = c.getColor();
-                    if(colorOfCell != Color.LTGRAY) {
+                    if(colorOfCell!=Color.LTGRAY) {
                         totalCellsRevealed++;
+                        cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
                     }
-                    cell_tvs.get(cell).setTextColor(Color.GRAY);
-                    cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
                 }
             }
-            else if(tv.getText().toString().equals("b"))
-            {
-                tv.setText(mine);
-                userWon = false;
-                goToResultPage();
-            }
-            if(totalCells - bombs == totalCellsRevealed)
+            if(totalCells - bombs <= totalCellsRevealed)
             {
                 userWon = true;
                 goToResultPage();
             }
         }
-
-        //Once set to a number you can never edit the cell again
-        //tv.getText().toString().equals("\uD83D\uDEA9") ||
-//        else if(!isNumeric(tv.getText().toString())){
-//            tv.setText(String.valueOf(i)+String.valueOf(j));
-//            if (tv.getCurrentTextColor() == Color.GRAY) {
-//                tv.setTextColor(Color.GREEN);
-//                tv.setBackgroundColor(Color.parseColor("lime"));
-//            }else {
-//            tv.setText("4");
-//            }
-//        }
     }
 
     public void onClickFlag(View view) {
@@ -259,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             intent.putExtra("com.example.mindsweeper.RESULT", "You lost. Try again next time!");
         }
-//        intent.putExtra("com.example.mindsweeper.RESULT", userWon);
         startActivity(intent);
     }
 
@@ -271,12 +250,11 @@ public class MainActivity extends AppCompatActivity {
 
             //need to access the cell at the x,y position and assign
             //as bomb if empty
-            int index = new Random().nextInt(77);
+            int index = new Random().nextInt(78);
             if(!cell_tvs.get(index).getText().toString().equals("b"))
             {
                 cell_tvs.get(index).setText("b");
-                cell_tvs.get(index).setTextColor(Color.GRAY);
-//                cell_tvs.get(index).setAlpha((float) 0.5);
+                cell_tvs.get(index).setTextColor(Color.LTGRAY);
                 bombsPlaced++;
             }
         }

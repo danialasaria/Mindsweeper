@@ -6,6 +6,7 @@
     <string name="my_name">Danial Asaria</string>
     <string name="clock">\uD83D\uDD53</string>
     <string name="flag">\uD83D\uDEA9</string>
+    <string name="flagSymbol">\uD83D\uDEA9</string>
     <string name="mine">\uD83D\uDCA3</string>
     <string name="pick">\u26CF</string>
     <string name="stopwatch">"\u23F1"</string>
