@@ -13,7 +13,10 @@ import android.os.Handler;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,11 +24,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int COLUMN_COUNT = 8;
     private int clock = 0;
     private boolean running = false;
+    private boolean gameOver = false;
     private boolean flagMode = false;
     private boolean userWon = false;
     private int totalCellsRevealed = 0;
@@ -147,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void onClickTV(View view){
+        if(gameOver == true) {
+            goToResultPage();
+        }
         TextView tv = (TextView) view;
         ColorDrawable cd = (ColorDrawable) tv.getBackground();
         int colorCode = cd.getColor();
@@ -177,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 tv.setText(mine);
                 userWon = false;
-                goToResultPage();
+                gameOver = true;
+//                goToResultPage();
             }
             tv.setBackgroundColor(Color.LTGRAY);
             totalCellsRevealed++;
@@ -186,15 +195,7 @@ public class MainActivity extends AppCompatActivity {
             if(tv.getText().toString().equals(""))
             {
                 int index = findIndexOfCellTextView(tv);
-                ArrayList<Integer> adjacentCells = adjacentCells(index);
-                for (Integer cell: adjacentCells) {
-                    ColorDrawable c = (ColorDrawable) cell_tvs.get(cell).getBackground();
-                    int colorOfCell = c.getColor();
-                    if(colorOfCell!=Color.LTGRAY) {
-                        totalCellsRevealed++;
-                        cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
-                    }
-                }
+                revealCells(index);
             }
             if(totalCells - bombs <= totalCellsRevealed)
             {
@@ -203,17 +204,39 @@ public class MainActivity extends AppCompatActivity {
                     cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
                 }
                 userWon = true;
-                goToResultPage();
+                gameOver = true;
+//                goToResultPage();
             }
         }
     }
 
+    public void revealCells(int index) {
+        ArrayList<Integer> adjacentCells = adjacentCells(index);
+        for (Integer cell: adjacentCells) {
+            ColorDrawable c = (ColorDrawable) cell_tvs.get(cell).getBackground();
+            int colorOfCell = c.getColor();
+            if(colorOfCell!=Color.LTGRAY) {
+                totalCellsRevealed++;
+                cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
+                if(cell_tvs.get(cell).getText().toString().equals(""))
+                {
+                    revealCells(cell);
+                }
+            }
+        }
+    }
+
+
     public void onClickFlag(View view) {
+        final Button button = (Button) findViewById(R.id.textView10);
         if(flagMode)
         {
+            button.setText(R.string.pick);
             flagMode = false;
         }
         else {
+            //set the button icon equal to a flag
+            button.setText(R.string.flagSymbol);
             flagMode = true;
         }
     }
