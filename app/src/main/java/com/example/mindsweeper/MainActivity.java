@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean gameOver = false;
     private boolean flagMode = false;
     private boolean userWon = false;
+    private boolean gameStarted = false;
     private int totalCellsRevealed = 0;
     private int totalCells = 80;
     private int bombs = 4;
@@ -154,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTV(View view){
         if(gameOver == true) {
             goToResultPage();
+            return;
         }
+        gameStarted = true;
         TextView tv = (TextView) view;
         ColorDrawable cd = (ColorDrawable) tv.getBackground();
         int colorCode = cd.getColor();
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         for (Integer cell: adjacentCells) {
             ColorDrawable c = (ColorDrawable) cell_tvs.get(cell).getBackground();
             int colorOfCell = c.getColor();
-            if(colorOfCell!=Color.LTGRAY) {
+            if(colorOfCell!=Color.LTGRAY && !cell_tvs.get(cell).getText().toString().equals("b")) {
                 totalCellsRevealed++;
                 cell_tvs.get(cell).setBackgroundColor(Color.LTGRAY);
                 if(cell_tvs.get(cell).getText().toString().equals(""))
@@ -363,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
                 String time = String.format("%02d", seconds);
                 timeView.setText(time);
 
-                if (running) {
+                if (running && gameOver == false && gameStarted == true) {
                     clock++;
                 }
                 handler.postDelayed(this, 1000);
